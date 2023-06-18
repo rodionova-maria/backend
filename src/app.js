@@ -4,7 +4,6 @@ const getUsers = require("./modules/users");
 const server = http.createServer((request, response) => {
   const url = new URL(request.url, "http://127.0.0.1");
   const searchParams = url.searchParams;
-  console.log(searchParams.entries());
 
   if (!searchParams.toString().length) {
     response.status = 200;
@@ -12,6 +11,8 @@ const server = http.createServer((request, response) => {
     response.header = "Content-Type: text/plain";
     response.write("Hello, World!");
     response.end();
+
+    return;
   }
 
   for (let [key, value] of searchParams.entries()) {
@@ -40,9 +41,9 @@ const server = http.createServer((request, response) => {
         break;
       default:
         response.status = 500;
-        // response.statusMessage = "";
-        // response.header = "Content-Type: text/plain";
-        // response.write("");
+        response.statusMessage = "";
+        response.header = "Content-Type: text/plain";
+        response.write("");
         response.end();
         break;
     }
