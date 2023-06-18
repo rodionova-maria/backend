@@ -6,7 +6,7 @@ const server = http.createServer((request, response) => {
   const searchParams = url.searchParams;
 
   if (!searchParams.toString().length) {
-    response.status = 200;
+    response.statusCode = 200;
     response.statusMessage = "OK";
     response.header = "Content-Type: text/plain";
     response.write("Hello, World!");
@@ -18,7 +18,7 @@ const server = http.createServer((request, response) => {
   for (let [key, value] of searchParams.entries()) {
     switch (key) {
       case "users":
-        response.status = 200;
+        response.statusCode = 200;
         response.statusMessage = "OK";
         response.header = "Content-Type: application/json";
         response.write(getUsers());
@@ -26,24 +26,22 @@ const server = http.createServer((request, response) => {
         break;
       case "hello":
         if (value) {
-          response.status = 200;
+          response.statusCode = 200;
           response.statusMessage = "OK";
           response.header = "Content-Type: text/plain";
           response.write(`Hello, ${value}`);
           response.end();
         } else {
-          response.status = 400;
-          response.statusMessage = "Bad Request";
+          response.statusCode = 400;
           response.header = "Content-Type: text/plain";
           response.write("Enter a name");
           response.end();
         }
         break;
       default:
-        response.status = 500;
-        response.statusMessage = "";
+        response.statusCode = 500;
         response.header = "Content-Type: text/plain";
-        response.write("");
+        response.write(" ");
         response.end();
         break;
     }
