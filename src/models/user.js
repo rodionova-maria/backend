@@ -4,17 +4,21 @@ const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    minlength: 2,
+    minLength: 2,
   },
   lastName: {
     type: String,
     required: true,
-    minlength: 2,
+    minLength: 2,
   },
   username: {
     type: String,
     required: true,
-    minlength: 2,
+    minLength: 5,
+  },
+  books: {
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'book' }],
+    default: [],
   },
 })
 

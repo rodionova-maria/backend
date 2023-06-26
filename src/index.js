@@ -54,11 +54,12 @@
 // })
 
 const express = require('express')
+
 const dotenv = require('dotenv')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
-const userRouter = require('./routes/users')
+const routes = require('./routes')
 
 dotenv.config()
 
@@ -68,20 +69,20 @@ const {
   MONGO_URL = 'mongodb://127.0.0.1:27017/backend',
 } = process.env
 
-mongoose.connect(MONGO_URL).catch((error) => console.error(error))
+mongoose
+  .connect(MONGO_URL)
+  .then(() => console.log('MongoDB connected'))
+  .catch((error) => console.log(error))
+
+mongoose.connection.on('error', (error) => {
+  console.log(error)
+})
 
 const app = express()
 
-const helloWorld = (req, res) => {
-  response.status(200)
-  response.send('Hello, World')
-}
-
-app.use(cors)
+app.use(cors())
 app.use(bodyParser.json())
-app.use(userRouter)
-
-app.get('/', helloWorld)
+app.use('/', routes)
 
 app.listen(PORT, () => {
   console.log(`Сервер запущен по адресу ${API_URL}:${PORT}`)
